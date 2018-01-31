@@ -1,12 +1,18 @@
-/*
- * Helpers-------------------------
-*/
-function _qs(selector, scope) {
-  return (scope || document).querySelector(selector);
-}
+(function (window) {
+  let _ = {
+    qs: function (selector, scope) {
+      return (scope || document).querySelector(selector); 
+    },
+    qsa: function (selector, scope) {
+      return (scope || document).querySelectorAll(selector); 
+    },
+    cdf: function () {
+      return document.createDocumentFragment(); 
+    },
+    ce: function (nodeString) {
+      return document.createElement(nodeString); 
+    }
+  };
 
-function _qsa(selector, scope) {
-  return (scope || document).querySelector(selector);
-}
-/*---------------------------------*/
-
+  window._ = _;
+})(window);

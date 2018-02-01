@@ -26,8 +26,6 @@
 
     self.setMatrixSize(GAME_DEFAULTS.MATRIX_SIZE);
     self.setItems(GAME_DEFAULTS.ITEMS);
-    console.log(self.getMatrixSize());
-    console.log(self.getItems());
   };
 
   window.game = window.game || {};

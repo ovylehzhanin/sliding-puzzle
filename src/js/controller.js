@@ -9,6 +9,7 @@
 
     self._model.init();
     self._view.init();
+    self._view.render( self._model.getItems() );
   };
   
   window.game = window.game || {};

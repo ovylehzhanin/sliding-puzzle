@@ -4,8 +4,13 @@
     this._view = view;
   }
 
-  Controller.prototype.render();
+  Controller.prototype.init = function () {
+    let self = this;
+
+    self._model.init();
+    self._view.init();
+  };
   
-  window.game = game || {};
+  window.game = window.game || {};
   window.game.Controller = Controller;
 })(window);

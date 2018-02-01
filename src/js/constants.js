@@ -1,4 +1,5 @@
 const GAME_DEFAULTS = {
+  MATRIX_SIZE: 4,
   ITEMS: [
     [1, 2, 3, 4],
     [5, 6, 7, 8],

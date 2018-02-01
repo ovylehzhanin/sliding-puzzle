@@ -23,7 +23,6 @@ function main() {
   }
 
   root.appendChild(fragment);
-
 } 
 
 window.addEventListener('DOMContentLoaded', main, false);

@@ -21,11 +21,17 @@
     return this.items;
   };
 
-  Model.prototype.init = function () {
-    let self = this;
+  Model.prototype._loadDefaults = function () {
+    let model = this;
 
-    self.setMatrixSize(GAME_DEFAULTS.MATRIX_SIZE);
-    self.setItems(GAME_DEFAULTS.ITEMS);
+    model.setMatrixSize(GAME_DEFAULTS.MATRIX_SIZE);
+    model.setItems(GAME_DEFAULTS.ITEMS);
+  };
+
+  Model.prototype.init = function () {
+    let model = this;
+
+    model._loadDefaults();
   };
 
   window.game = window.game || {};

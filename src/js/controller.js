@@ -4,18 +4,19 @@
     this._view = view;
   }
   
-  Controller.prototype.callHello = function () {
-    console.log('Hello World!');
-  };
-
   Controller.prototype.init = function () {
     let self = this;
     
     self._model.init();
     self._view.init();
     self._view.render( self._model.getItems() );
-    
-    Observer.attachHandler('testButtonClicked', self.callHello);
+    self._registerHandlers();
+  };
+  
+  Controller.prototype._registerHandlers = function () {
+    Observer.attachHandler('arrowKeyPressed', function (direction) {
+      console.log( `direction: ${direction}` );
+    }); 
   };
 
   window.game = window.game || {};

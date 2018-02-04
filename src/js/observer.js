@@ -1,24 +1,24 @@
 (function (window) {
-    const Observer = {
-        handlers: [],
+    function Observer () {
+      this._handlers = [];
+    }
 
-        attachHandler: function (trigger, handler) {
-            this.handlers.push({
-                trigger: trigger,
-                handler: handler
-            });
-        },
-
-        callTrigger: function (trigger, callback) {
-            this.handlers.forEach( handlerObject => {
-                if (trigger === handlerObject.trigger) {
-                    handlerObject.handler();
-                }
-            });
-
-            callback();
+    Observer.prototype.attachHandler = function (trigger, handler) {
+      this._handlers.push({
+        trigger: trigger,
+        handler: handler
+      }); 
+    };
+  
+    Observer.prototype.callTrigger = function (trigger, args, callback) {
+      for (let i = 0, end = this._handlers.length; i < end; i += 1) {
+        if (trigger === this._handlers[i].trigger) {
+          this._handlers[i].handler( args );
         }
+      }
+
+      callback && callback();
     };
 
-    window.Observer = Observer;
+    window.Observer = new Observer();
 })(window);

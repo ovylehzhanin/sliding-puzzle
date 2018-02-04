@@ -3,6 +3,7 @@
   function Model() {
     this.matrixSize = null;
     this.items = []; 
+    this.possibleMoves = { top: [], up: [], left: [], down: [] };
   }
 
   Model.prototype.setMatrixSize = function (value) {
@@ -13,8 +14,8 @@
     return this.matrixSize;
   };
 
-  Model.prototype.setItems = function (itemsArray) {
-    this.items = itemsArray;
+  Model.prototype.setItems = function (items) {
+    this.items = items;
   };
 
   Model.prototype.getItems = function () {
@@ -22,16 +23,23 @@
   };
 
   Model.prototype._loadDefaults = function () {
-    let model = this;
+    let self = this;
 
-    model.setMatrixSize(GAME_DEFAULTS.MATRIX_SIZE);
-    model.setItems(GAME_DEFAULTS.ITEMS);
+    self.setMatrixSize(GAME_DEFAULTS.MATRIX_SIZE);
+    self.setItems(GAME_DEFAULTS.ITEMS);
+  };
+
+  Model.prototype.getPossibleMoves = function () {
+  }
+
+  Model.prototype.swapItems = function (direction) {
+     
   };
 
   Model.prototype.init = function () {
-    let model = this;
+    let self = this;
 
-    model._loadDefaults();
+    self._loadDefaults();
   };
 
   window.game = window.game || {};

@@ -3,16 +3,19 @@
   
   function View() {}
 
-  View.prototype.render = function (items) {
+  View.prototype.renderItems = function (items) {
     let self = this;
     let _fragment = _h.cdf(); 
     
     for (let row = 0, rows = items.length; row < rows; row += 1) {
-      for (let column = 0, columns = row.length; column < columns; column += 1) {
-        _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
+      for (let column = 0, columns = items[row].length; column < columns; column += 1) {
+        if (items[row][column] != ' ') {
+          _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
+        }
       }
     }
-    
+
+    pageElements.root.innerHTML = '';
     pageElements.root.appendChild( _fragment );
   };
   
@@ -23,8 +26,8 @@
     itemNode.dataset.column = currentColumn;
     itemNode.dataset.value = innerValue;
     itemNode.className = 'item';
-
-    return itemNode;
+    
+    return itemNode; 
   };
 
   View.prototype._cacheTheDom = function () {
@@ -72,10 +75,8 @@
   }
   
   View.prototype.init = function () {
-    let self = this;
-
-    self._cacheTheDom();
-    self._bindEvents();
+    this._cacheTheDom();
+    this._bindEvents();
   };
   
   window.game = window.game || {};

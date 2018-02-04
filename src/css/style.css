@@ -168,6 +168,6 @@ html, body {
   transform: translateX(120px) translateY(106px);
 }
 
-.item[data-row="3"][data-column="333"] {
+.item[data-row="3"][data-column="3"] {
   transform: translateX(175px) translateY(106px);
 }

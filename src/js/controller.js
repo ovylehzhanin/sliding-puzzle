@@ -5,17 +5,19 @@
   }
   
   Controller.prototype.init = function () {
-    let self = this;
-    
-    self._model.init();
-    self._view.init();
-    self._view.render( self._model.getItems() );
-    self._registerHandlers();
+    this._model.init();
+    this._view.init();
+
+    this._view.renderItems( this._model.items() );
+    this._registerHandlers();
   };
   
   Controller.prototype._registerHandlers = function () {
+    let self = this;
+
     Observer.attachHandler('arrowKeyPressed', function (direction) {
-      console.log( `direction: ${direction}` );
+      self._model.swapItems(direction);
+      self._view.renderItems( self._model.items() );
     }); 
   };
 

@@ -51,7 +51,7 @@ html, body {
 
 .container::after {
   top: 96%;
-  z-index: 3;
+  z-index: 7;
   height: 30px;
   border: 1px solid #acee72;
   -webkit-box-shadow:
@@ -106,6 +106,18 @@ html, body {
     1px 0 0 #fff,
     0 4px 0 #ca466b;
   font-size: 30px;
+}
+
+.item[data-row="1"] {
+  z-index: 3;
+}
+
+.item[data-row="2"] {
+  z-index: 4;
+}
+
+.item[data-row="3"] {
+  z-index: 5;
 }
 
 .item[data-row="0"][data-column="0"] {

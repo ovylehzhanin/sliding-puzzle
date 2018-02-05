@@ -55,6 +55,7 @@
   };
 
   Model.prototype.swapItems = function (direction) {
+    let oldPosition = this.targetItemPosition();
     let directionIndex = this._getPossibleMoves()[direction],
       directionRow = directionIndex[0],
       directionColumn = directionIndex[1],
@@ -63,9 +64,10 @@
 
     if (directionItem) {
       this.targetItemPosition(
-        items._2dSwap( this.targetItemPosition(), [directionRow, directionColumn] )
+        items._2dSwap( oldPosition, [directionRow, directionColumn] )
       );
 
+      Observer.callTrigger('itemsSwapped', [[directionRow, directionColumn], oldPosition]);
       this._calculatePossibleMoves();
     }
   };

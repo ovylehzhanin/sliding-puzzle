@@ -15,10 +15,14 @@
   Controller.prototype._registerHandlers = function () {
     let self = this;
 
-    Observer.attachHandler('arrowKeyPressed', function (direction) {
+    Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
+      console.log(this);
       self._model.swapItems(direction);
-      self._view.renderItems( self._model.items() );
-    }); 
+    });
+
+    Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
+      self._view.moveBlock(previousPosition, currentPosition);
+    });
   };
 
   window.game = window.game || {};

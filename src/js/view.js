@@ -61,6 +61,15 @@
     }
   };
 
+  View.prototype.moveBlock = function (previousPosition, currentPosition) {
+    let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
+    
+    if (elementToMove != null) {
+      elementToMove.dataset.row = currentPosition[0];
+      elementToMove.dataset.column = currentPosition[1];
+    }
+  }
+
   View.prototype._bindEvents = function () {
     let self = this;
 

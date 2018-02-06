@@ -5,6 +5,7 @@
     this._items = []; 
     this._possibleMoves = { left: [], up: [], right: [], down: [] };
     this._targetItemPosition = [];
+    this._movesCount = 0;
   }
 
   Model.prototype.matrixSize = function (value) {
@@ -54,6 +55,16 @@
     return this._possibleMoves;
   };
 
+  Model.prototype.count = function (param) {
+    if (param === 'refresh') {
+      this._movesCount = 0;
+    } else if (param === 'increment') {
+      this._movesCount++;
+    } else {
+      return this._movesCount;
+    }
+  };
+
   Model.prototype.swapItems = function (direction) {
     let oldPosition = this.targetItemPosition();
     let directionIndex = this._getPossibleMoves()[direction],
@@ -67,6 +78,7 @@
         items._2dSwap( oldPosition, [directionRow, directionColumn] )
       );
 
+      this.count('increment');
       Observer.callTrigger('itemsSwapped', [[directionRow, directionColumn], oldPosition]);
       this._calculatePossibleMoves();
     }

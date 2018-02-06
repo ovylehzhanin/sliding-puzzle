@@ -7,8 +7,8 @@
   Controller.prototype.init = function () {
     this._model.init();
     this._view.init();
-
     this._view.renderItems( this._model.items() );
+    this._view.renderStatistic( this._model.count() );
     this._registerHandlers();
   };
   
@@ -16,12 +16,12 @@
     let self = this;
 
     Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
-      console.log(this);
       self._model.swapItems(direction);
     });
 
     Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
       self._view.moveBlock(previousPosition, currentPosition);
+      self._view.renderStatistic( self._model.count() );
     });
   };
 

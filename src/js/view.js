@@ -18,6 +18,11 @@
     pageElements.root.innerHTML = '';
     pageElements.root.appendChild( _fragment );
   };
+
+  View.prototype.renderStatistic = function (movesCount) {
+    let movesCountNode = _h.qs('.statistic__moves-value');
+    movesCountNode.textContent = movesCount;
+  };
   
   View.prototype._createItemNode = function (currentRow, currentColumn, innerValue) {
     let itemNode = _h.ce('div');
@@ -34,7 +39,8 @@
     pageElements = {
       root: _h.qs('#root'),
       testButton: _h.qs('#testButton'),
-      body: _h.qs('body')
+      body: _h.qs('body'),
+      statistic: _h.qs('#statistic', this.body)
     };
   };
 

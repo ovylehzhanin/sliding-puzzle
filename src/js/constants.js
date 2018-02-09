@@ -10,5 +10,13 @@
     TARGET_ITEM_POSITION: [3, 3]
   };
 
+  const KEY = {
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40
+  };
+
   window.GAME_DEFAULTS = GAME_DEFAULTS;
+  window.KEY = KEY;
 })();

@@ -46,19 +46,19 @@
 
   View.prototype._getDirectionFromKeyCode = function (keyCode) {
     switch (keyCode) {
-      case 37:
+      case KEY.LEFT:
         return 'right';
         break;
 
-      case 38:
+      case KEY.UP:
         return 'down';
         break;
 
-      case 39:
+      case KEY.RIGHT:
         return 'left';
         break;
 
-      case 40:
+      case KEY.DOWN:
         return 'up';
         break;
 

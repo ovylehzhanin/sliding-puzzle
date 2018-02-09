@@ -65,7 +65,7 @@
     }
   };
 
-  Model.prototype.swapItems = function (direction) {
+  Model.prototype._swapItems = function (direction) {
     let oldPosition = this.targetItemPosition();
     let directionIndex = this._getPossibleMoves()[direction],
       directionRow = directionIndex[0],
@@ -74,14 +74,29 @@
       directionItem = items[directionRow] ? items[directionRow][directionColumn] : undefined;
 
     if (directionItem) {
-      this.targetItemPosition(
-        items._2dSwap( oldPosition, [directionRow, directionColumn] )
-      );
-
+      let newPosition = items._2dSwap( oldPosition, [directionRow, directionColumn] );
+      this.targetItemPosition(newPosition);
+      this._calculatePossibleMoves();
+      
+      return true;
+    } else {
+      return false;
+    }
+  };
+    
+  Model.prototype.makeMove = function (dicrection) {
+    if ( this._swapItems(direction) ) {
       this.count('increment');
       Observer.callTrigger('itemsSwapped', [[directionRow, directionColumn], oldPosition]);
-      this._calculatePossibleMoves();
     }
+  };
+
+  Model.prototype.shufflePuzzleDeck = function (directions) {
+    let self = this;
+
+    directions.forEach(directoinString => {
+      self._swapItems(directionString);
+    });
   };
 
   Model.prototype.init = function () {

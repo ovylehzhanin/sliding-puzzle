@@ -16,12 +16,16 @@
     let self = this;
 
     Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
-      self._model.swapItems(direction);
+      self._model.makeMove(direction);
     });
 
     Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
       self._view.moveBlock(previousPosition, currentPosition);
       self._view.renderStatistic( self._model.count() );
+    });
+
+    Observer.attachHandler(null, 'shuffleButtonPressed', function (movesArray) {
+      // self._model.shufflePuzzleDeck
     });
   };
 

@@ -38,9 +38,9 @@
   View.prototype._cacheTheDom = function () {
     pageElements = {
       root: _h.qs('#root'),
-      testButton: _h.qs('#testButton'),
       body: _h.qs('body'),
-      statistic: _h.qs('#statistic', this.body)
+      statistic: _h.qs('#statistic', this.body),
+      shuffleButton: _h.qs('#makeShuffle', this.body)
     };
   };
 
@@ -67,6 +67,10 @@
     }
   };
 
+  View.prototype.generateMoves = function (count) {
+
+  };
+
   View.prototype.moveBlock = function (previousPosition, currentPosition) {
     let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
     
@@ -86,7 +90,14 @@
       if (keyCode >= 37 && keyCode <= 40) {
         Observer.callTrigger('arrowKeyPressed', direction, null); 
       }
-    }, false);    
+    }, false);
+
+    pageElements.shuffleButton.addEventListener('click', event => {
+      // prepare directions array here...
+      // and put it to callTrigger
+      
+      Observer.callTrigger('shuffleButtonPressed', 'hello', null);
+    }, false);
   }
   
   View.prototype.init = function () {

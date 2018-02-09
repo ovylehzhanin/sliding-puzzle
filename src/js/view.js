@@ -67,8 +67,19 @@
     }
   };
 
-  View.prototype.generateMoves = function (count) {
+  View.prototype.generateMovesArray = function (count) {
+    let self = this,
+      movesArray = [];
 
+    for (let i = 0; i < count; i += 1) {
+      movesArray.push( self._getDirectionFromKeyCode(generateKeyCode(KEY.LEFT, KEY.DOWN + 1)) );
+    }
+    
+    function generateKeyCode(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    return movesArray;
   };
 
   View.prototype.moveBlock = function (previousPosition, currentPosition) {
@@ -93,10 +104,9 @@
     }, false);
 
     pageElements.shuffleButton.addEventListener('click', event => {
-      // prepare directions array here...
-      // and put it to callTrigger
-      
-      Observer.callTrigger('shuffleButtonPressed', 'hello', null);
+      let movesArray = self.generateMovesArray(400);
+
+      Observer.callTrigger('shuffleButtonPressed', [movesArray], null);
     }, false);
   }
   

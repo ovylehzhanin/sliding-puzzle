@@ -5,11 +5,13 @@
   }
   
   Controller.prototype.init = function () {
-    this._model.init();
-    this._view.init();
-    this._view.renderItems( this._model.items() );
-    this._view.renderStatistic( this._model.count() );
-    this._registerHandlers();
+    var self = this;
+
+    self._model.init();
+    self._view.init();
+    self._view.renderItems( self._model.items() );
+    self._view.renderStatistic( self._model.count() );
+    self._registerHandlers();
   };
   
   Controller.prototype._registerHandlers = function () {
@@ -25,7 +27,9 @@
     });
 
     Observer.attachHandler(null, 'shuffleButtonPressed', function (movesArray) {
-      // self._model.shufflePuzzleDeck
+      self._model.shufflePuzzleDeck(movesArray);
+      self._view.renderItems( self._model.items() );
+      self._view.renderStatistic( self._model.count() );
     });
   };
 

@@ -78,25 +78,29 @@
       this.targetItemPosition(newPosition);
       this._calculatePossibleMoves();
       
-      return true;
+      return [newPosition, oldPosition];
     } else {
       return false;
     }
   };
     
-  Model.prototype.makeMove = function (dicrection) {
-    if ( this._swapItems(direction) ) {
+  Model.prototype.makeMove = function (direction) {
+    let viewData = this._swapItems(direction);
+
+    if (viewData) {
       this.count('increment');
-      Observer.callTrigger('itemsSwapped', [[directionRow, directionColumn], oldPosition]);
+      Observer.callTrigger('itemsSwapped', viewData);
     }
   };
 
   Model.prototype.shufflePuzzleDeck = function (directions) {
     let self = this;
 
-    directions.forEach(directoinString => {
+    directions.forEach(directionString => {
       self._swapItems(directionString);
     });
+
+    self.count('refresh');
   };
 
   Model.prototype.init = function () {

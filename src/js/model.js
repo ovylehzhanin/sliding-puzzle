@@ -1,15 +1,7 @@
+import {Observer} from './observer.js';
+
 export default class Model {
-  constructor() {}
-
-  init() {
-    console.log('hello I\'m Model'); 
-  }
-}
-
-
-/*(function (window) {
-
-  function Model() {
+  constructor() {
     this._matrixSize = null;
     this._items = []; 
     this._possibleMoves = { left: [], up: [], right: [], down: [] };
@@ -17,54 +9,54 @@ export default class Model {
     this._movesCount = 0;
   }
 
-  Model.prototype.matrixSize = function (value) {
+  matrixSize(value) {
     if (value) {
       this._matrixSize = value; 
       return;
     }
 
     return this._matrixSize;
-  };
+  }
 
-  Model.prototype.items = function (value) {
+  items(value) {
     if (value) {
       this._items = value; 
       return;
     }
 
     return this._items;
-  };
+  }
   
-  Model.prototype.targetItemPosition = function (value) {
+  targetItemPosition = function (value) {
     if (value) {
       this._targetItemPosition = value;
       return;
     } 
 
     return this._targetItemPosition;
-  };
+  }
 
-  Model.prototype._loadDefaults = function () {
+  _loadDefaults() {
     this.matrixSize(GAME_DEFAULTS.MATRIX_SIZE);
     this.items(GAME_DEFAULTS.ITEMS);
     this.targetItemPosition(GAME_DEFAULTS.TARGET_ITEM_POSITION);
     this._calculatePossibleMoves();
-  };
+  }
 
-  Model.prototype._calculatePossibleMoves = function () {
+  _calculatePossibleMoves() {
     let targetItemPosition = this.targetItemPosition();
 
     this._possibleMoves.left = [targetItemPosition[0], targetItemPosition[1] - 1];
     this._possibleMoves.up = [targetItemPosition[0] - 1, targetItemPosition[1]];
     this._possibleMoves.right = [targetItemPosition[0], targetItemPosition[1] + 1];
     this._possibleMoves.down = [targetItemPosition[0] + 1, targetItemPosition[1]];
-  };
+  }
 
-  Model.prototype._getPossibleMoves = function () {
+  _getPossibleMoves() {
     return this._possibleMoves;
-  };
+  }
 
-  Model.prototype.count = function (param) {
+  count(param) {
     if (param === 'refresh') {
       this._movesCount = 0;
     } else if (param === 'increment') {
@@ -72,9 +64,9 @@ export default class Model {
     } else {
       return this._movesCount;
     }
-  };
+  }
 
-  Model.prototype._swapItems = function (direction) {
+  _swapItems(direction) {
     let oldPosition = this.targetItemPosition();
     let directionIndex = this._getPossibleMoves()[direction],
       directionRow = directionIndex[0],
@@ -91,18 +83,18 @@ export default class Model {
     } else {
       return false;
     }
-  };
+  }
     
-  Model.prototype.makeMove = function (direction) {
+  makeMove(direction) {
     let viewData = this._swapItems(direction);
 
     if (viewData) {
       this.count('increment');
       Observer.callTrigger('itemsSwapped', viewData);
     }
-  };
+  }
 
-  Model.prototype.shufflePuzzleDeck = function (directions) {
+  shufflePuzzleDeck(directions) {
     let self = this;
 
     directions.forEach(directionString => {
@@ -110,12 +102,9 @@ export default class Model {
     });
 
     self.count('refresh');
-  };
+  }
 
-  Model.prototype.init = function () {
+  init = function () {
     this._loadDefaults();
-  };
-
-  window.game = window.game || {};
-  window.game.Model = Model;
-})(window);*/
+  }
+}

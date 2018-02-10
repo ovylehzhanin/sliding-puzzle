@@ -1,23 +1,19 @@
-export default class Observer {
-  constructor(owner, triggerName, handler) {
-    this._handlers = []; 
-  }
+export const Observer = {
+  _handlers: [],
 
-  attachHandler(owner, triggerName, handler) {
+  attachHandler: function (owner, triggerName, handler) {
     this._handlers.push({
       owner: owner,
       triggerName: triggerName,
       handler: handler
-    })
-  }
+    });
+  },
 
-  callTrigger(triggerName, args, callback) {
+  callTrigger: function (triggerName, args, callback) {
     for (let i = 0, end = this._handlers.length; i < end; i += 1) {
-      if (triggerName === this._handlers.triggerName) {
-        this._handlers[i].handler.apply(this._nandlers[i].owner, [].concat(args));
+      if (triggerName === this._handlers[i].triggerName) {
+        this._handlers[i].handler.apply(this._handlers[i].owner, [].concat(args)); 
       } 
-    }
-
-    callback && callback();
+    } 
   }
-}
+};

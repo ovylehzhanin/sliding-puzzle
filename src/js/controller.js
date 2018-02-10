@@ -1,27 +1,12 @@
+import {Observer} from './observer.js';
+
 export default class Controller {
-  constructor(observer, model, view) {
+  constructor(model, view) {
     this._model = model;
     this._view = view;
-    this._observer = observer;
   }
-
-  showMessage(message) {
-    console.log(message); 
-  } 
 
   init() {
-    this._model.init(); 
-    this._view.init();
-    this._observer.attachHandler(this, 'shuffleButtonPressed', this.showMessage);
-  }
-}
-/*(function (window) {
-  function Controller(model, view) {
-    this._model = model;
-    this._view = view;
-  }
-  
-  Controller.prototype.init = function () {
     var self = this;
 
     self._model.init();
@@ -29,9 +14,9 @@ export default class Controller {
     self._view.renderItems( self._model.items() );
     self._view.renderStatistic( self._model.count() );
     self._registerHandlers();
-  };
+  }
   
-  Controller.prototype._registerHandlers = function () {
+  _registerHandlers() {
     let self = this;
 
     Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
@@ -48,8 +33,5 @@ export default class Controller {
       self._view.renderItems( self._model.items() );
       self._view.renderStatistic( self._model.count() );
     });
-  };
-
-  window.game = window.game || {};
-  window.game.Controller = Controller;
-})(window);*/
+  }
+}

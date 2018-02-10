@@ -15,6 +15,11 @@ html, body {
   border: 2px dashed black;
 }
 
+.shuffle-button {
+  user-select: none;
+  cursor: pointer;
+}
+
 .container {
   width: 235px;
   height: 147px;
@@ -103,6 +108,11 @@ html, body {
     0 10px 0 2px #ca466b;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+}
+
+.item.highlighted:hover {
+  background-color: #ff80a1;
+  cursor: pointer;
 }
 
 .item::before {

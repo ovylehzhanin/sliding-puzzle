@@ -1,28 +1,43 @@
 import { Observer } from './observer';
 import {KEY} from './constants';
-import { _h } from './helpers';
+import {_h} from './helpers';
 
 export default class View {
-  constructor() {}
+  constructor() {
+    this.elements = null; 
+  }
 
   _cacheTheDom() {
-    return {
+    let elements = {
       root: _h.qs('#root'),
       body: _h.qs('body'),
       statistic: _h.qs('#statistic', this.body),
       shuffleButton: _h.qs('#makeShuffle', this.body)
     }; 
+
+    this.elements = elements;
   }
 
   _createItemNode(currentRow, currentColumn, innerValue) {
-    let itemNode = _h.ce('div');
+    let self = this,
+      itemNode = _h.ce('div');
 
     itemNode.dataset.row = currentRow;
     itemNode.dataset.column = currentColumn;
     itemNode.dataset.value = innerValue;
+    itemNode.dataset.clickDirection = '';
     itemNode.className = 'item';
+    itemNode.addEventListener('click', event => {self._handlerItemClick(itemNode)}, false);
     
     return itemNode; 
+  }
+
+  _handlerItemClick(itemNode) {
+    if (itemNode.dataset.clickDirection != '') {
+      let direction = itemNode.dataset.clickDirection; 
+
+      Observer.callTrigger('itemClicked', direction, null);
+    }
   }
 
   _getDirectionFromKeyCode(keyCode) {
@@ -48,10 +63,10 @@ export default class View {
     }
   }
 
-  renderItems(items) {
-    let self = this;
-    let _fragment = _h.cdf(); 
-    let pageElements = self._cacheTheDom();
+  renderItems(items, possibleMoves) {
+    let self = this,
+      _fragment = _h.cdf(),
+      {root} = this.elements;
     
     for (let row = 0, rows = items.length; row < rows; row += 1) {
       for (let column = 0, columns = items[row].length; column < columns; column += 1) {
@@ -61,8 +76,9 @@ export default class View {
       }
     }
 
-    pageElements.root.innerHTML = '';
-    pageElements.root.appendChild( _fragment );
+    root.innerHTML = '';
+    root.appendChild( _fragment );
+    this._highlightPossibleMoves(possibleMoves);
   }
 
   renderStatistic(movesCount) {
@@ -86,19 +102,42 @@ export default class View {
     return movesArray;
   }
 
-  moveBlock(previousPosition, currentPosition) {
-    let pageElements = this._cacheTheDom();
-    let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
+  _highlightPossibleMoves(possibleMoves) {
+    let {root} = this.elements;
+
+    root.childNodes.forEach(item => {
+      item.classList.remove('highlighted'); 
+      item.dataset.clickDirection = '';
+    });
+
+    for (let move in possibleMoves) {
+      let row = possibleMoves[move][0],
+        column = possibleMoves[move][1],
+        itemToHighlight = null;
+
+      itemToHighlight = _h.qs(`.item[data-row="${row}"][data-column="${column}"]`, root);
+      if (itemToHighlight) {
+        itemToHighlight.classList.add('highlighted');
+        itemToHighlight.dataset.clickDirection = move;
+      }
+    } 
+  }
+
+  moveBlock(previousPosition, currentPosition, possibleMoves) {
+    let {root} = this.elements;
+    let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, root);
     
     if (elementToMove != null) {
       elementToMove.dataset.row = currentPosition[0];
       elementToMove.dataset.column = currentPosition[1];
     }
+
+    this._highlightPossibleMoves(possibleMoves);
   }
 
   _bindEvents() {
     let self = this,
-      pageElements = self._cacheTheDom();
+      {shuffleButton} = this.elements;
 
     window.addEventListener('keydown', event => {
       let keyCode = event.keyCode,
@@ -109,7 +148,7 @@ export default class View {
       }
     }, false);
 
-    pageElements.shuffleButton.addEventListener('click', event => {
+    shuffleButton.addEventListener('click', event => {
       let movesArray = self.generateMovesArray(400);
 
       Observer.callTrigger('shuffleButtonPressed', [movesArray], null);

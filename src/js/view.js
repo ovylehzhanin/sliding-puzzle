@@ -84,7 +84,7 @@ export default class View {
     return movesArray;
   }
 
-  View.prototype.moveBlock = function (previousPosition, currentPosition) {
+  moveBlock(previousPosition, currentPosition) {
     let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
     
     if (elementToMove != null) {
@@ -112,7 +112,7 @@ export default class View {
     }, false);
   }
   
-  View.prototype.init = function () {
+  init = function () {
     this._cacheTheDom();
     this._bindEvents();
   };

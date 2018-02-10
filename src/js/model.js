@@ -27,7 +27,7 @@ export default class Model {
     return this._items;
   }
   
-  targetItemPosition = function (value) {
+  targetItemPosition(value) {
     if (value) {
       this._targetItemPosition = value;
       return;
@@ -104,7 +104,7 @@ export default class Model {
     self.count('refresh');
   }
 
-  init = function () {
+  init() {
     this._loadDefaults();
   }
 }

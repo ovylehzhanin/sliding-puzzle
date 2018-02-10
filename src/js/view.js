@@ -1,4 +1,5 @@
 import { Observer } from './observer';
+import {KEY} from './constants';
 import { _h } from './helpers';
 
 export default class View {
@@ -112,7 +113,7 @@ export default class View {
     }, false);
   }
   
-  init = function () {
+  init() {
     this._cacheTheDom();
     this._bindEvents();
   };

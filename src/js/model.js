@@ -1,4 +1,5 @@
-import {Observer} from './observer.js';
+import {Observer} from './observer';
+import {GAME_DEFAULTS} from './constants';
 
 export default class Model {
   constructor() {

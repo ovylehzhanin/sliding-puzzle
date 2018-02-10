@@ -11,7 +11,7 @@ export default class Controller {
 
     self._model.init();
     self._view.init();
-    self._view.renderItems( self._model.items() );
+    self._view.renderItems( self._model.items(), self._model.getPossibleMoves() );
     self._view.renderStatistic( self._model.count() );
     self._registerHandlers();
   }
@@ -23,8 +23,12 @@ export default class Controller {
       self._model.makeMove(direction);
     });
 
+    Observer.attachHandler(null, 'itemClicked', function (direction) {
+      self._model.makeMove(direction); 
+    });
+
     Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
-      self._view.moveBlock(previousPosition, currentPosition);
+      self._view.moveBlock(previousPosition, currentPosition, self._model.getPossibleMoves());
       self._view.renderStatistic( self._model.count() );
     });
 

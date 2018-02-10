@@ -1,9 +1,8 @@
-import { _h } from './helpers.js';
+import { Observer } from './observer';
+import { _h } from './helpers';
 
 export default class View {
-  constructor(observer) {
-    this._observer = observer; 
-  }
+  constructor() {}
 
   _cacheTheDom() {
     return {
@@ -14,46 +13,7 @@ export default class View {
     }; 
   }
 
-  _bindEvents() {
-    let pageElements = this._cacheTheDom();
-
-    pageElements.shuffleButton.addEventListener('click', event => {
-      this._observer.callTrigger('shuffleButtonPressed', ['hello'], null); 
-    }, false);
-  }
-
-  init() {
-    this._bindEvents(); 
-  }
-}
-
-/*(function (window) {
-  let pageElements = null;
-  
-  function View() {}
-
-  View.prototype.renderItems = function (items) {
-    let self = this;
-    let _fragment = _h.cdf(); 
-    
-    for (let row = 0, rows = items.length; row < rows; row += 1) {
-      for (let column = 0, columns = items[row].length; column < columns; column += 1) {
-        if (items[row][column] != ' ') {
-          _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
-        }
-      }
-    }
-
-    pageElements.root.innerHTML = '';
-    pageElements.root.appendChild( _fragment );
-  };
-
-  View.prototype.renderStatistic = function (movesCount) {
-    let movesCountNode = _h.qs('.statistic__moves-value');
-    movesCountNode.textContent = movesCount;
-  };
-  
-  View.prototype._createItemNode = function (currentRow, currentColumn, innerValue) {
+  _createItemNode(currentRow, currentColumn, innerValue) {
     let itemNode = _h.ce('div');
 
     itemNode.dataset.row = currentRow;
@@ -62,14 +22,9 @@ export default class View {
     itemNode.className = 'item';
     
     return itemNode; 
-  };
+  }
 
-  View.prototype._cacheTheDom = function () {
-    pageElements = {
-          };
-  };
-
-  View.prototype._getDirectionFromKeyCode = function (keyCode) {
+  _getDirectionFromKeyCode(keyCode) {
     switch (keyCode) {
       case KEY.LEFT:
         return 'right';
@@ -90,9 +45,31 @@ export default class View {
       default:
         break;
     }
+  }
+
+  renderItems() {
+    let self = this;
+    let _fragment = _h.cdf(); 
+    
+    for (let row = 0, rows = items.length; row < rows; row += 1) {
+      for (let column = 0, columns = items[row].length; column < columns; column += 1) {
+        if (items[row][column] != ' ') {
+          _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
+        }
+      }
+    }
+
+    pageElements.root.innerHTML = '';
+    pageElements.root.appendChild( _fragment );
+  }
+
+  renderStatistic(movesCount) {
+    let movesCountNode = _h.qs('.statistic__moves-value');
+
+    movesCountNode.textContent = movesCount;
   };
 
-  View.prototype.generateMovesArray = function (count) {
+  generateMovesArray(count) {
     let self = this,
       movesArray = [];
 
@@ -105,7 +82,7 @@ export default class View {
     }
 
     return movesArray;
-  };
+  }
 
   View.prototype.moveBlock = function (previousPosition, currentPosition) {
     let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
@@ -116,7 +93,7 @@ export default class View {
     }
   }
 
-  View.prototype._bindEvents = function () {
+  _bindEvents() {
     let self = this;
 
     window.addEventListener('keydown', event => {
@@ -139,7 +116,4 @@ export default class View {
     this._cacheTheDom();
     this._bindEvents();
   };
-  
-  window.game = window.game || {};
-  window.game.View = View;
-})(window);*/
+}

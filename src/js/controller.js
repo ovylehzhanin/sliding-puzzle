@@ -1,4 +1,21 @@
-(function (window) {
+export default class Controller {
+  constructor(observer, model, view) {
+    this._model = model;
+    this._view = view;
+    this._observer = observer;
+  }
+
+  showMessage(message) {
+    console.log(message); 
+  } 
+
+  init() {
+    this._model.init(); 
+    this._view.init();
+    this._observer.attachHandler(this, 'shuffleButtonPressed', this.showMessage);
+  }
+}
+/*(function (window) {
   function Controller(model, view) {
     this._model = model;
     this._view = view;
@@ -35,4 +52,4 @@
 
   window.game = window.game || {};
   window.game.Controller = Controller;
-})(window);
+})(window);*/

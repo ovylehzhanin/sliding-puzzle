@@ -1,4 +1,13 @@
-(function (window) {
+export default class Model {
+  constructor() {}
+
+  init() {
+    console.log('hello I\'m Model'); 
+  }
+}
+
+
+/*(function (window) {
 
   function Model() {
     this._matrixSize = null;
@@ -109,4 +118,4 @@
 
   window.game = window.game || {};
   window.game.Model = Model;
-})(window);
+})(window);*/

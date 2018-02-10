@@ -5,10 +5,16 @@
 
   controller.init();
 }, false);*/
-import Test from "./test";
+import Controller from './controller';
+import Model from './model';
+import View from './view';
+import Observer from './observer';
 
 window.addEventListener('load', () => {
-  let test = new Test('hello');
+  let observer = new Observer();
+  let model = new Model();
+  let view = new View(observer);
+  let controller = new Controller(observer, model, view);
 
-  test.outputMessage();
+  controller.init();
 }, false);

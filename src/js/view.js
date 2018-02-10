@@ -1,4 +1,33 @@
-(function (window) {
+import { _h } from './helpers.js';
+
+export default class View {
+  constructor(observer) {
+    this._observer = observer; 
+  }
+
+  _cacheTheDom() {
+    return {
+      root: _h.qs('#root'),
+      body: _h.qs('body'),
+      statistic: _h.qs('#statistic', this.body),
+      shuffleButton: _h.qs('#makeShuffle', this.body)
+    }; 
+  }
+
+  _bindEvents() {
+    let pageElements = this._cacheTheDom();
+
+    pageElements.shuffleButton.addEventListener('click', event => {
+      this._observer.callTrigger('shuffleButtonPressed', ['hello'], null); 
+    }, false);
+  }
+
+  init() {
+    this._bindEvents(); 
+  }
+}
+
+/*(function (window) {
   let pageElements = null;
   
   function View() {}
@@ -37,11 +66,7 @@
 
   View.prototype._cacheTheDom = function () {
     pageElements = {
-      root: _h.qs('#root'),
-      body: _h.qs('body'),
-      statistic: _h.qs('#statistic', this.body),
-      shuffleButton: _h.qs('#makeShuffle', this.body)
-    };
+          };
   };
 
   View.prototype._getDirectionFromKeyCode = function (keyCode) {
@@ -117,4 +142,4 @@
   
   window.game = window.game || {};
   window.game.View = View;
-})(window);
+})(window);*/

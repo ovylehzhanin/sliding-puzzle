@@ -1,5 +1,6 @@
 import {Observer} from './observer';
 import {GAME_DEFAULTS} from './constants';
+import {_2dSwap} from './helpers';
 
 export default class Model {
   constructor() {
@@ -76,7 +77,7 @@ export default class Model {
       directionItem = items[directionRow] ? items[directionRow][directionColumn] : undefined;
 
     if (directionItem) {
-      let newPosition = items._2dSwap( oldPosition, [directionRow, directionColumn] );
+      let newPosition = _2dSwap( items, oldPosition, [directionRow, directionColumn] );
       this.targetItemPosition(newPosition);
       this._calculatePossibleMoves();
       

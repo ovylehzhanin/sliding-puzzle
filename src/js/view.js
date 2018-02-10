@@ -48,9 +48,10 @@ export default class View {
     }
   }
 
-  renderItems() {
+  renderItems(items) {
     let self = this;
     let _fragment = _h.cdf(); 
+    let pageElements = self._cacheTheDom();
     
     for (let row = 0, rows = items.length; row < rows; row += 1) {
       for (let column = 0, columns = items[row].length; column < columns; column += 1) {
@@ -86,6 +87,7 @@ export default class View {
   }
 
   moveBlock(previousPosition, currentPosition) {
+    let pageElements = this._cacheTheDom();
     let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, pageElements.root);
     
     if (elementToMove != null) {
@@ -95,7 +97,8 @@ export default class View {
   }
 
   _bindEvents() {
-    let self = this;
+    let self = this,
+      pageElements = self._cacheTheDom();
 
     window.addEventListener('keydown', event => {
       let keyCode = event.keyCode,

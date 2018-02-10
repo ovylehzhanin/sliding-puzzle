@@ -54,7 +54,7 @@ export default class Model {
     this._possibleMoves.down = [targetItemPosition[0] + 1, targetItemPosition[1]];
   }
 
-  _getPossibleMoves() {
+  getPossibleMoves() {
     return this._possibleMoves;
   }
 
@@ -70,7 +70,7 @@ export default class Model {
 
   _swapItems(direction) {
     let oldPosition = this.targetItemPosition();
-    let directionIndex = this._getPossibleMoves()[direction],
+    let directionIndex = this.getPossibleMoves()[direction],
       directionRow = directionIndex[0],
       directionColumn = directionIndex[1],
       items = this.items(),

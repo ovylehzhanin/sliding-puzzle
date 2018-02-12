@@ -125,6 +125,7 @@ html, body {
     1px 0 0 #fff,
     0 4px 0 #ca466b;
   font-size: 30px;
+  pointer-events: none;
 }
 
 .item[data-row="1"] {

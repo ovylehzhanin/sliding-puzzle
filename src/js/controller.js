@@ -34,7 +34,7 @@ export default class Controller {
 
     Observer.attachHandler(null, 'shuffleButtonPressed', function (movesArray) {
       self._model.shufflePuzzleDeck(movesArray);
-      self._view.renderItems( self._model.items() );
+      self._view.renderItems( self._model.items(), self._model.getPossibleMoves() );
       self._view.renderStatistic( self._model.count() );
     });
   }

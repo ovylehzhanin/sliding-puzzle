@@ -78,7 +78,7 @@ export default class View {
 
     root.innerHTML = '';
     root.appendChild( _fragment );
-    this._highlightPossibleMoves(possibleMoves);
+    self._highlightPossibleMoves(possibleMoves);
   }
 
   renderStatistic(movesCount) {

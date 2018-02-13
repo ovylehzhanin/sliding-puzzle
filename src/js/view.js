@@ -9,6 +9,7 @@ export default class View {
 
   _cacheTheDom() {
     let elements = {
+      style: _h.qs('style[title="generated"]'),
       root: _h.qs('#root'),
       body: _h.qs('body'),
       statistic: _h.qs('#statistic', this.body),
@@ -30,6 +31,10 @@ export default class View {
     itemNode.addEventListener('click', event => {self._handlerItemClick(itemNode)}, false);
     
     return itemNode; 
+  }
+
+  _generateItemNodeStyles() {
+    return '.item{background-color: red;}'; 
   }
 
   _handlerItemClick(itemNode) {
@@ -66,18 +71,21 @@ export default class View {
   renderItems(items, possibleMoves) {
     let self = this,
       _fragment = _h.cdf(),
-      {root} = this.elements;
+      styleString = '',
+      {style, root, body} = this.elements;
     
     for (let row = 0, rows = items.length; row < rows; row += 1) {
       for (let column = 0, columns = items[row].length; column < columns; column += 1) {
         if (items[row][column] != ' ') {
           _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
+          styleString += self._generateItemNodeStyles()
         }
       }
     }
 
     root.innerHTML = '';
     root.appendChild( _fragment );
+    style.textContent = styleString;
     self._highlightPossibleMoves(possibleMoves);
   }
 

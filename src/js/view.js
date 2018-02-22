@@ -1,10 +1,10 @@
 import { Observer } from './observer';
-import {KEY} from './constants';
-import {_h} from './helpers';
+import { KEY, SIZES } from './constants';
+import { _h } from './helpers';
 
 export default class View {
   constructor() {
-    this.elements = null; 
+    this.elements = null;
   }
 
   _cacheTheDom() {
@@ -14,7 +14,7 @@ export default class View {
       body: _h.qs('body'),
       statistic: _h.qs('#statistic', this.body),
       shuffleButton: _h.qs('#makeShuffle', this.body)
-    }; 
+    };
 
     this.elements = elements;
   }
@@ -28,18 +28,24 @@ export default class View {
     itemNode.dataset.value = innerValue;
     itemNode.dataset.clickDirection = '';
     itemNode.className = 'item';
-    itemNode.addEventListener('click', event => {self._handlerItemClick(itemNode)}, false);
-    
-    return itemNode; 
+    itemNode.addEventListener('click', event => { self._handlerItemClick(itemNode) }, false);
+
+    return itemNode;
   }
 
-  _generateItemNodeStyles() {
-    return '.item{background-color: red;}'; 
+  _generateItemNodeStyles(row, column) {
+    let { width, height, positionX, positionY } = SIZES.ITEM;
+
+    return `
+.item[data-row="${row}"][data-column="${column}"]{
+  transform: translateX(${positionX + column * width + column * 5}px) translateY(${positionY + row * height + row * 3}px);
+}
+  `;
   }
 
   _handlerItemClick(itemNode) {
     if (itemNode.dataset.clickDirection != '') {
-      let direction = itemNode.dataset.clickDirection; 
+      let direction = itemNode.dataset.clickDirection;
 
       Observer.callTrigger('itemClicked', direction, null);
     }
@@ -72,19 +78,19 @@ export default class View {
     let self = this,
       _fragment = _h.cdf(),
       styleString = '',
-      {style, root, body} = this.elements;
-    
+      { style, root, body } = this.elements;
+
     for (let row = 0, rows = items.length; row < rows; row += 1) {
       for (let column = 0, columns = items[row].length; column < columns; column += 1) {
         if (items[row][column] != ' ') {
-          _fragment.appendChild( self._createItemNode(row, column, items[row][column]) );
-          styleString += self._generateItemNodeStyles()
+          _fragment.appendChild(self._createItemNode(row, column, items[row][column]));
         }
+        styleString += self._generateItemNodeStyles(row, column);
       }
     }
 
     root.innerHTML = '';
-    root.appendChild( _fragment );
+    root.appendChild(_fragment);
     style.textContent = styleString;
     self._highlightPossibleMoves(possibleMoves);
   }
@@ -100,9 +106,9 @@ export default class View {
       movesArray = [];
 
     for (let i = 0; i < count; i += 1) {
-      movesArray.push( self._getDirectionFromKeyCode(generateKeyCode(KEY.LEFT, KEY.DOWN + 1)) );
+      movesArray.push(self._getDirectionFromKeyCode(generateKeyCode(KEY.LEFT, KEY.DOWN + 1)));
     }
-    
+
     function generateKeyCode(min, max) {
       return Math.floor(Math.random() * (max - min)) + min;
     }
@@ -111,10 +117,10 @@ export default class View {
   }
 
   _highlightPossibleMoves(possibleMoves) {
-    let {root} = this.elements;
+    let { root } = this.elements;
 
     root.childNodes.forEach(item => {
-      item.classList.remove('highlighted'); 
+      item.classList.remove('highlighted');
       item.dataset.clickDirection = '';
     });
 
@@ -128,13 +134,13 @@ export default class View {
         itemToHighlight.classList.add('highlighted');
         itemToHighlight.dataset.clickDirection = move;
       }
-    } 
+    }
   }
 
   moveBlock(previousPosition, currentPosition, possibleMoves) {
-    let {root} = this.elements;
+    let { root } = this.elements;
     let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, root);
-    
+
     if (elementToMove != null) {
       elementToMove.dataset.row = currentPosition[0];
       elementToMove.dataset.column = currentPosition[1];
@@ -145,14 +151,14 @@ export default class View {
 
   _bindEvents() {
     let self = this,
-      {shuffleButton} = this.elements;
+      { shuffleButton } = this.elements;
 
     window.addEventListener('keydown', event => {
       let keyCode = event.keyCode,
-        direction = self._getDirectionFromKeyCode( event.keyCode ); 
+        direction = self._getDirectionFromKeyCode(event.keyCode);
 
       if (keyCode >= 37 && keyCode <= 40) {
-        Observer.callTrigger('arrowKeyPressed', direction, null); 
+        Observer.callTrigger('arrowKeyPressed', direction, null);
       }
     }, false);
 
@@ -162,7 +168,7 @@ export default class View {
       Observer.callTrigger('shuffleButtonPressed', [movesArray], null);
     }, false);
   }
-  
+
   init() {
     this._cacheTheDom();
     this._bindEvents();

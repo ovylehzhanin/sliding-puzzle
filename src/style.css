@@ -140,7 +140,7 @@ html, body {
   z-index: 5;
 }
 
-.item[data-row="0"][data-column="0"] {
+/* .item[data-row="0"][data-column="0"] {
   transform: translateX(10px) translateY(7px);
 }
 
@@ -202,4 +202,4 @@ html, body {
 
 .item[data-row="3"][data-column="3"] {
   transform: translateX(175px) translateY(106px);
-}
+} */

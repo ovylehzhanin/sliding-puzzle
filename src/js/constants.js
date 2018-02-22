@@ -15,3 +15,12 @@ export const KEY = {
   RIGHT: 39,
   DOWN: 40
 };
+
+export const SIZES = {
+  ITEM: {
+    width: 50,
+    height: 30,
+    positionX: 10,
+    positionY: 7
+  }
+};

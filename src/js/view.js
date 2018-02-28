@@ -1,6 +1,6 @@
 import { Observer } from './observer';
 import { KEY, SIZES } from './constants';
-import { _h, tagger } from './helpers';
+import { _dom, _tagger } from './helpers';
 
 export default class View {
   constructor() {
@@ -9,11 +9,11 @@ export default class View {
 
   _cacheTheDom() {
     let elements = {
-      style: _h.qs('style[title="generated"]'),
-      root: _h.qs('#root'),
-      body: _h.qs('body'),
-      statistic: _h.qs('#statistic', this.body),
-      shuffleButton: _h.qs('#makeShuffle', this.body)
+      style: _dom.qs('style[title="generated"]'),
+      root: _dom.qs('#root'),
+      body: _dom.qs('body'),
+      statistic: _dom.qs('#statistic', this.body),
+      shuffleButton: _dom.qs('#makeShuffle', this.body)
     };
 
     this.elements = elements;
@@ -21,7 +21,7 @@ export default class View {
 
   _createItemNode(currentRow, currentColumn, innerValue) {
     let self = this,
-      itemNode = _h.ce('div');
+      itemNode = _dom.ce('div');
 
     itemNode.dataset.row = currentRow;
     itemNode.dataset.column = currentColumn;
@@ -34,7 +34,7 @@ export default class View {
   }
 
   _generateItemNodeStyles(row, column) {
-    let itemStylesTemplate = tagger`.item[data-row="${'row'}"][data-column="${'column'}"]{transform: translateX(${'translateX'}px) translateY(${'translateY'}px);}`;
+    let itemStylesTemplate = _tagger`.item[data-row="${'row'}"][data-column="${'column'}"]{transform: translateX(${'translateX'}px) translateY(${'translateY'}px);}`;
     let { width, height, positionX, positionY } = SIZES.ITEM;
 
     return itemStylesTemplate.formatWith({
@@ -78,7 +78,7 @@ export default class View {
 
   renderItems(items, possibleMoves) {
     let self = this,
-      _fragment = _h.cdf(),
+      _fragment = _dom.cdf(),
       styleString = '',
       { style, root, body } = this.elements;
 
@@ -98,7 +98,7 @@ export default class View {
   }
 
   renderStatistic(movesCount) {
-    let movesCountNode = _h.qs('.statistic__moves-value');
+    let movesCountNode = _dom.qs('.statistic__moves-value');
 
     movesCountNode.textContent = movesCount;
   };
@@ -131,7 +131,7 @@ export default class View {
         column = possibleMoves[move][1],
         itemToHighlight = null;
 
-      itemToHighlight = _h.qs(`.item[data-row="${row}"][data-column="${column}"]`, root);
+      itemToHighlight = _dom.qs(`.item[data-row="${row}"][data-column="${column}"]`, root);
       if (itemToHighlight) {
         itemToHighlight.classList.add('highlighted');
         itemToHighlight.dataset.clickDirection = move;
@@ -141,7 +141,7 @@ export default class View {
 
   moveBlock(previousPosition, currentPosition, possibleMoves) {
     let { root } = this.elements;
-    let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, root);
+    let elementToMove = _dom.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, root);
 
     if (elementToMove != null) {
       elementToMove.dataset.row = currentPosition[0];

@@ -1,17 +1,22 @@
-export const _h = {
-  qs: (selector, scope) => {
+export class _dom {
+  constructor() {}
+
+  static qs(selector, scope) {
     return (scope || document).querySelector(selector);
-  },
-  qsa: (selector, scope) => {
+  }
+
+  static qsa(selector, scope) {
     return (scope || document).querySelectorAll(selector);
-  },
-  cdf: () => {
+  }
+
+  static cdf() {
     return document.createDocumentFragment();
-  },
-  ce: nodeString => {
+  }
+
+  static ce(nodeString) {
     return document.createElement(nodeString);
   }
-};
+}
 
 export const _2dSwap = (array, a, b) => {
   array[a[0]][a[1]] = [
@@ -22,7 +27,7 @@ export const _2dSwap = (array, a, b) => {
   return b;
 };
 
-export const tagger = function (strings, ...flags) {
+export const _tagger = function (strings, ...flags) {
   let _strings = strings.slice(0),
     result = [];
 

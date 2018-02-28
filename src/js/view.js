@@ -1,6 +1,6 @@
 import { Observer } from './observer';
 import { KEY, SIZES } from './constants';
-import { _h } from './helpers';
+import { _h, tagger } from './helpers';
 
 export default class View {
   constructor() {
@@ -34,13 +34,15 @@ export default class View {
   }
 
   _generateItemNodeStyles(row, column) {
+    let itemStylesTemplate = tagger`.item[data-row="${'row'}"][data-column="${'column'}"]{transform: translateX(${'translateX'}px) translateY(${'translateY'}px);}`;
     let { width, height, positionX, positionY } = SIZES.ITEM;
 
-    return `
-.item[data-row="${row}"][data-column="${column}"]{
-  transform: translateX(${positionX + column * width + column * 5}px) translateY(${positionY + row * height + row * 3}px);
-}
-  `;
+    return itemStylesTemplate.formatWith({
+      row: row,
+      column: column,
+      translateX: positionX + column * (width + 5),
+      translateY: positionY + row * (height + 3),
+    });
   }
 
   _handlerItemClick(itemNode) {

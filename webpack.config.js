@@ -13,10 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['env']
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,

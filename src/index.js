@@ -1,15 +1,5 @@
-import './style.css';
-import Controller from './app/controller';
-import Model from './app/model';
-import View from './app/view';
-import { Observer } from './app/observer';
-
+import { Game } from './Game.js';
 function main() {
-  let model = new Model();
-  let view = new View();
-  let controller = new Controller(model, view);
-
-  controller.init();
+    (new Game()).launch();
 }
-
 window.addEventListener('load', main, false);

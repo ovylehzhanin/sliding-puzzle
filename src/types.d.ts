@@ -5,3 +5,4 @@ type Move = "up" | "right" | "down" | "left";
 type PossibleMoves = {
   [key in Move]: SliderItemPosition;
 };
+type ArrowMove = "ArrowUp" | "ArrowRight" | "ArrowDown" | "ArrowLeft";

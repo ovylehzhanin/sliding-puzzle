@@ -12,11 +12,19 @@ export default class Controller {
     this._view.moveTile(currentPosition, newPosition, this._model.possibleMoves);
   }
 
-  init() {
+  _renderItems() {
     this._view.renderItems(this._model.items, this._model.possibleMoves);
+  }
+
+  init() {
+    this._renderItems();
     this._view.bindHandlers({
       onArrowKeyPress: (direction) => this._handleTileMove(direction),
       onItemClick: (direction) => this._handleTileMove(direction),
+      onShuffleButtonClick: () => {
+        this._model.shuffleMatrix();
+        this._renderItems();
+      },
     });
   }
 }

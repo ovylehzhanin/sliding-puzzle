@@ -80,35 +80,26 @@ html, body {
 .tile {
   position: absolute;
   z-index: 2;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 30px;
   border-radius: 3px;
   background-color: #f66e92;
-  -webkit-box-shadow: 
+  box-shadow: 
     1px 0 0 0 #fff,
     0 1px 0 0 #fff,
     0 -1px 0 0 #ca466b,
     2px 0 0 0 #ca466b,
     -2px 0 0 0 #ca466b,
     0 10px 0 2px #ca466b;
-          box-shadow: 
-    1px 0 0 0 #fff,
-    0 1px 0 0 #fff,
-    0 -1px 0 0 #ca466b,
-    2px 0 0 0 #ca466b,
-    -2px 0 0 0 #ca466b,
-    0 10px 0 2px #ca466b;
-  -webkit-transition: all 100ms ease-in-out;
-  transition: all 100ms ease-in-out;
+  /* transition: all 100ms ease-in-out; */
+  will-change: transform;
+  transition-property: transform;
+  transition-duration: 100ms;
+  transition-timing-function: ease-in-out;
+
 }
 
 .tile.highlighted:hover {

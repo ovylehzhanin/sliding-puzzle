@@ -13,14 +13,14 @@ export default class Model {
     return this._puzzleMatrix.emptyCellPosition;
   }
 
-  constructor() {
+  constructor(matrixSize) {
     this._movesCount = 0;
-    this._puzzleMatrix = new PuzzleMatrix();
+    this._puzzleMatrix = new PuzzleMatrix(matrixSize);
   }
 
-  updateMatrixSize(value) {
+  /* updateMatrixSize(value) {
     this._puzzleMatrix.matrixSize = value;
-  }
+  } */
 
   count(param) {
     switch (param) {
@@ -41,12 +41,7 @@ export default class Model {
     this._puzzleMatrix.swapItems(direction);
   }
 
-  // tf?
-  shufflePuzzleDeck(directions) {
-    directions.forEach(directionString => {
-      this.swapItems(directionString);
-    });
-
-    this.count('refresh');
+  shuffleMatrix() {
+    this._puzzleMatrix.shuffleMatrixItems();
   }
 }

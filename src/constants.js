@@ -1,12 +1,5 @@
-export const GAME_DEFAULTS = {
-  MATRIX_SIZE: 4,
-  ITEMS: [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    [13, 14, 15, ' ']
-  ],
-};
+export const EMPTY_CELL = ' ';
+export const DEFAULT_MATRIX_SIZE = 4;
 
 const ARROW_LEFT = 'ArrowLeft';
 const ARROW_UP = 'ArrowUp';

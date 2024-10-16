@@ -15,7 +15,7 @@ export default class View {
   }
 
   get $$shuffleBttn() {
-    return document.querySelector('#makeShuffle');
+    return document.querySelector('#doShuffle');
   }
 
   constructor() { }
@@ -33,7 +33,7 @@ export default class View {
 
     this.$$rootEl.innerHTML = '';
     this.$$rootEl.appendChild(_fragment);
-    this._highlightPossibleMoves(possibleMoves);
+    this._highlightActiveTiles(possibleMoves);
   }
 
   renderStatistic(movesCount) {
@@ -48,10 +48,10 @@ export default class View {
       elementToMove.dataset.column = currentPosition[1];
     }
 
-    this._highlightPossibleMoves(possibleMoves);
+    this._highlightActiveTiles(possibleMoves);
   }
 
-  bindHandlers({ onArrowKeyPress, onItemClick }) {
+  bindHandlers({ onArrowKeyPress, onItemClick, onShuffleButtonClick }) {
     window.addEventListener('keydown', event => {
       if (ARROWS_KEYS.indexOf(event.code) > -1) {
         onArrowKeyPress(DIRECTION_DICT[event.code]);
@@ -61,6 +61,9 @@ export default class View {
       if (!!event.target?.dataset?.clickDirection) {
         onItemClick(event.target?.dataset?.clickDirection);
       }
+    });
+    this.$$shuffleBttn.addEventListener('click', () => {
+      onShuffleButtonClick();
     });
   }
 
@@ -76,7 +79,7 @@ export default class View {
     return itemNode; 
   }
 
-  _highlightPossibleMoves(possibleMoves) {
+  _highlightActiveTiles(possibleMoves) {
     this.$$rootEl.childNodes.forEach(tile => {
       tile.classList.remove('highlighted'); 
       tile.dataset.clickDirection = '';

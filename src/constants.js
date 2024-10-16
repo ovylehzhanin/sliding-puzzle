@@ -6,14 +6,6 @@ export const GAME_DEFAULTS = {
     [9, 10, 11, 12],
     [13, 14, 15, ' ']
   ],
-  TARGET_ITEM_POSITION: [3, 3]
-};
-
-export const KEY = {
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40
 };
 
 const ARROW_LEFT = 'ArrowLeft';

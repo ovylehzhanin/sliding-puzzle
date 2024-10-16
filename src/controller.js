@@ -1,5 +1,3 @@
-import { Observer } from './observer.js';
-
 export default class Controller {
   constructor(model, view) {
     this._model = model;
@@ -7,35 +5,30 @@ export default class Controller {
   }
 
   init() {
-    var self = this;
+    this._model.init();
+    this._view.init();
 
-    self._model.init();
-    self._view.init();
-    self._view.renderItems(self._model.items(), self._model.getPossibleMoves());
-    self._view.renderStatistic(self._model.count());
-    self._registerHandlers();
+    this._view.renderItems(this._model.items, this._model.possibleMoves);
+    // this._view.renderStatistic(self._model.count());
+    this._registerHandlers();
   }
 
   _registerHandlers() {
-    let self = this;
+    this._view.bindHandlers({
+      onArrowKeyPress: (direction) => {
+        const currentPosition = this._model.emptyTilePosition;
+        // console.log('currentPosition', currentPosition);
+        this._model.makeMove(direction);
 
-    Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
-      self._model.makeMove(direction);
-    });
+        /* console.log(
+          this._model.items.map(row => row.join('\t') + '\n').join()
+        ); */
 
-    Observer.attachHandler(null, 'itemClicked', function (direction) {
-      self._model.makeMove(direction);
-    });
+        const newPosition = this._model.emptyTilePosition;
+        // console.log('newPosition', newPosition);
 
-    Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
-      self._view.moveBlock(previousPosition, currentPosition, self._model.getPossibleMoves());
-      self._view.renderStatistic(self._model.count());
-    });
-
-    Observer.attachHandler(null, 'shuffleButtonPressed', function (movesArray) {
-      self._model.shufflePuzzleDeck(movesArray);
-      self._view.renderItems(self._model.items(), self._model.getPossibleMoves());
-      self._view.renderStatistic(self._model.count());
+        this._view.moveTile(currentPosition, newPosition, this._model.possibleMoves);
+      },
     });
   }
 }

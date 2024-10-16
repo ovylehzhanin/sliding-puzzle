@@ -1,61 +1,27 @@
-import {Observer} from './observer';
-import {GAME_DEFAULTS} from './constants';
 import {_2dSwap} from './helpers';
+import { PuzzleMatrix } from './PuzzleMatrix';
 
 export default class Model {
+  get items() {
+    return this.puzzleMatrix.items;
+  }
+
+  get possibleMoves() {
+    return this.puzzleMatrix._getPossibleMoves()
+  }
+
+  get emptyTilePosition() {
+    return this.puzzleMatrix.emptyCellPosition;
+  }
+
   constructor() {
     this._matrixSize = null;
-    this._items = []; 
-    this._possibleMoves = { left: [], up: [], right: [], down: [] };
-    this._targetItemPosition = [];
     this._movesCount = 0;
+    this.puzzleMatrix = new PuzzleMatrix();
   }
 
-  matrixSize(value) {
-    if (value) {
-      this._matrixSize = value; 
-      return;
-    }
-
-    return this._matrixSize;
-  }
-
-  items(value) {
-    if (value) {
-      this._items = value; 
-      return;
-    }
-
-    return this._items;
-  }
-  
-  targetItemPosition(value) {
-    if (value) {
-      this._targetItemPosition = value;
-      return;
-    } 
-
-    return this._targetItemPosition;
-  }
-
-  _loadDefaults() {
-    this.matrixSize(GAME_DEFAULTS.MATRIX_SIZE);
-    this.items(GAME_DEFAULTS.ITEMS);
-    this.targetItemPosition(GAME_DEFAULTS.TARGET_ITEM_POSITION);
-    this._calculatePossibleMoves();
-  }
-
-  _calculatePossibleMoves() {
-    let targetItemPosition = this.targetItemPosition();
-
-    this._possibleMoves.left = [targetItemPosition[0], targetItemPosition[1] - 1];
-    this._possibleMoves.up = [targetItemPosition[0] - 1, targetItemPosition[1]];
-    this._possibleMoves.right = [targetItemPosition[0], targetItemPosition[1] + 1];
-    this._possibleMoves.down = [targetItemPosition[0] + 1, targetItemPosition[1]];
-  }
-
-  getPossibleMoves() {
-    return this._possibleMoves;
+  updateMatrixSize(value) {
+    this.puzzleMatrix.matrixSize = value;
   }
 
   count(param) {
@@ -68,32 +34,15 @@ export default class Model {
     }
   }
 
-  _swapItems(direction) {
-    let oldPosition = this.targetItemPosition();
-    let directionIndex = this.getPossibleMoves()[direction],
-      directionRow = directionIndex[0],
-      directionColumn = directionIndex[1],
-      items = this.items(),
-      directionItem = items[directionRow] ? items[directionRow][directionColumn] : undefined;
-
-    if (directionItem) {
-      let newPosition = _2dSwap( items, oldPosition, [directionRow, directionColumn] );
-      this.targetItemPosition(newPosition);
-      this._calculatePossibleMoves();
-      
-      return [newPosition, oldPosition];
-    } else {
-      return false;
-    }
-  }
-    
   makeMove(direction) {
-    let viewData = this._swapItems(direction);
+    // let viewData = this._swapItems(direction);
+    const viewData = this.puzzleMatrix.swapItems(direction);
 
-    if (viewData) {
+    /* if (viewData) {
       this.count('increment');
-      Observer.callTrigger('itemsSwapped', viewData);
-    }
+      // Observer.callTrigger('itemsSwapped', viewData);
+    } */
+    return viewData;
   }
 
   shufflePuzzleDeck(directions) {
@@ -107,6 +56,6 @@ export default class Model {
   }
 
   init() {
-    this._loadDefaults();
+    // this._loadDefaults();
   }
 }

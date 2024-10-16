@@ -1,5 +1,5 @@
-import { Observer } from './observer';
-import {KEY} from './constants';
+// import { Observer } from './observer';
+import {ARROWS_KEYS, DIRECTION_DICT, KEY} from './constants';
 import {_h} from './helpers';
 
 export default class View {
@@ -103,31 +103,29 @@ export default class View {
   }
 
   _highlightPossibleMoves(possibleMoves) {
-    let {root} = this.elements;
-
-    root.childNodes.forEach(item => {
-      item.classList.remove('highlighted'); 
-      item.dataset.clickDirection = '';
+    this.elements.root.childNodes.forEach(tile => {
+      tile.classList.remove('highlighted'); 
+      tile.dataset.clickDirection = '';
     });
 
     for (let move in possibleMoves) {
-      let row = possibleMoves[move][0],
-        column = possibleMoves[move][1],
-        itemToHighlight = null;
+      const tileToHighlight = _h.qs(this._getTileSelector(possibleMoves[move]), root);
 
-      itemToHighlight = _h.qs(`.item[data-row="${row}"][data-column="${column}"]`, root);
-      if (itemToHighlight) {
-        itemToHighlight.classList.add('highlighted');
-        itemToHighlight.dataset.clickDirection = move;
+      if (tileToHighlight) {
+        tileToHighlight.classList.add('highlighted');
+        tileToHighlight.dataset.clickDirection = move;
       }
     } 
   }
 
-  moveBlock(previousPosition, currentPosition, possibleMoves) {
-    let {root} = this.elements;
-    let elementToMove = _h.qs(`.item[data-row="${previousPosition[0]}"][data-column="${previousPosition[1]}"]`, root);
+  _getTileSelector([row, col]) {
+    return `.item[data-row="${row}"][data-column="${col}"]`;
+  }
+
+  moveTile(currentPosition, newPosition, possibleMoves) {
+    const elementToMove = _h.qs(this._getTileSelector(newPosition), this.elements.root);
     
-    if (elementToMove != null) {
+    if (elementToMove) {
       elementToMove.dataset.row = currentPosition[0];
       elementToMove.dataset.column = currentPosition[1];
     }
@@ -135,28 +133,15 @@ export default class View {
     this._highlightPossibleMoves(possibleMoves);
   }
 
-  _bindEvents() {
-    let self = this,
-      {shuffleButton} = this.elements;
-
+  bindHandlers({ onArrowKeyPress, onItemClick }) {
     window.addEventListener('keydown', event => {
-      let keyCode = event.keyCode,
-        direction = self._getDirectionFromKeyCode( event.keyCode ); 
-
-      if (keyCode >= 37 && keyCode <= 40) {
-        Observer.callTrigger('arrowKeyPressed', direction, null); 
+      if (ARROWS_KEYS.indexOf(event.code) > -1) {
+        onArrowKeyPress(DIRECTION_DICT[event.code]);
       }
-    }, false);
-
-    shuffleButton.addEventListener('click', event => {
-      let movesArray = self.generateMovesArray(400);
-
-      Observer.callTrigger('shuffleButtonPressed', [movesArray], null);
-    }, false);
+    });
   }
   
   init() {
     this._cacheTheDom();
-    this._bindEvents();
   };
 }

@@ -48,10 +48,7 @@ export class PuzzleMatrix {
 
         if (isItemExist) {
             this.items = swap2dArrElements(this.items, currentPosition, newPosition);
-            return newPosition;
         }
-
-        return null;
     }
 
     _getPossibleMoves() {

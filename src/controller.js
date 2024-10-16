@@ -4,31 +4,19 @@ export default class Controller {
     this._view = view;
   }
 
-  init() {
-    this._model.init();
-    this._view.init();
+  _handleTileMove(direction) {
+    const currentPosition = this._model.emptyTilePosition;
+    this._model.swapItems(direction);
+    const newPosition = this._model.emptyTilePosition;
 
-    this._view.renderItems(this._model.items, this._model.possibleMoves);
-    // this._view.renderStatistic(self._model.count());
-    this._registerHandlers();
+    this._view.moveTile(currentPosition, newPosition, this._model.possibleMoves);
   }
 
-  _registerHandlers() {
+  init() {
+    this._view.renderItems(this._model.items, this._model.possibleMoves);
     this._view.bindHandlers({
-      onArrowKeyPress: (direction) => {
-        const currentPosition = this._model.emptyTilePosition;
-        // console.log('currentPosition', currentPosition);
-        this._model.makeMove(direction);
-
-        /* console.log(
-          this._model.items.map(row => row.join('\t') + '\n').join()
-        ); */
-
-        const newPosition = this._model.emptyTilePosition;
-        // console.log('newPosition', newPosition);
-
-        this._view.moveTile(currentPosition, newPosition, this._model.possibleMoves);
-      },
+      onArrowKeyPress: (direction) => this._handleTileMove(direction),
+      onItemClick: (direction) => this._handleTileMove(direction),
     });
   }
 }

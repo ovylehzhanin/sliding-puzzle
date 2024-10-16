@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Sliding Puzzle (tools update)</title>
-  <link rel="stylesheet" href="./src/style.css">
+  <link rel="stylesheet" href="./src/style2.css">
 </head>
 <body>
-  <div id="root" class="container"></div>
-  <div id="statistic" class="statistic">
-    <span class="statistic__moves-label">Moves :</span>
-    <span class="statistic__moves-value"></span>
+  <div class="wrapper">
+
+    <div id="root" class="puzzle-container"></div>
+    <!-- <div id="statistic" class="statistic">
+      <span class="statistic__moves-label">Moves :</span>
+      <span class="statistic__moves-value"></span>
+    </div> -->
+    <button class="shuffle-button" id="makeShuffle">Shuffle</button>
   </div>
-  <button class="shuffle-button" id="makeShuffle">Shuffle</button>
   <script type="module" src="./src/index.js"></script>
 </body>
 </html>

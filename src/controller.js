@@ -1,41 +1,22 @@
-import { Observer } from './observer.js';
-
 export default class Controller {
   constructor(model, view) {
     this._model = model;
     this._view = view;
   }
 
-  init() {
-    var self = this;
+  _handleTileMove(direction) {
+    const currentPosition = this._model.emptyTilePosition;
+    this._model.swapItems(direction);
+    const newPosition = this._model.emptyTilePosition;
 
-    self._model.init();
-    self._view.init();
-    self._view.renderItems(self._model.items(), self._model.getPossibleMoves());
-    self._view.renderStatistic(self._model.count());
-    self._registerHandlers();
+    this._view.moveTile(currentPosition, newPosition, this._model.possibleMoves);
   }
 
-  _registerHandlers() {
-    let self = this;
-
-    Observer.attachHandler(null, 'arrowKeyPressed', function (direction) {
-      self._model.makeMove(direction);
-    });
-
-    Observer.attachHandler(null, 'itemClicked', function (direction) {
-      self._model.makeMove(direction);
-    });
-
-    Observer.attachHandler(null, 'itemsSwapped', function (previousPosition, currentPosition) {
-      self._view.moveBlock(previousPosition, currentPosition, self._model.getPossibleMoves());
-      self._view.renderStatistic(self._model.count());
-    });
-
-    Observer.attachHandler(null, 'shuffleButtonPressed', function (movesArray) {
-      self._model.shufflePuzzleDeck(movesArray);
-      self._view.renderItems(self._model.items(), self._model.getPossibleMoves());
-      self._view.renderStatistic(self._model.count());
+  init() {
+    this._view.renderItems(this._model.items, this._model.possibleMoves);
+    this._view.bindHandlers({
+      onArrowKeyPress: (direction) => this._handleTileMove(direction),
+      onItemClick: (direction) => this._handleTileMove(direction),
     });
   }
 }

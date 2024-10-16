@@ -1,8 +1,6 @@
-import './style.css';
 import Controller from './controller';
 import Model from './model';
 import View from './view';
-import { Observer } from './observer';
 
 function main() {
   let model = new Model();

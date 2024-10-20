@@ -15,9 +15,10 @@ export default class Controller {
   _renderItems() {
     this._view.renderItems(this._model.items, this._model.possibleMoves);
   }
-
+  
   init() {
     this._renderItems();
+    this._view.renderSettings();
     this._view.bindHandlers({
       onArrowKeyPress: (direction) => this._handleTileMove(direction),
       onItemClick: (direction) => this._handleTileMove(direction),
@@ -25,6 +26,9 @@ export default class Controller {
         this._model.shuffleMatrix();
         this._renderItems();
       },
+      onThemeChange: (theme) => {
+        this._view.applyTheme(theme);
+      }
     });
   }
 }

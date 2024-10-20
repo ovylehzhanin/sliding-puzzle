@@ -19,3 +19,7 @@ export const DIRECTION_DICT = {
   [ARROW_RIGHT]: DIR_LEFT,
   [ARROW_DOWN]: DIR_UP,
 };
+
+export const THEMES = [
+  'default', 'dark', 'ocean-breeze', 'sunset-glow', 'minty-fresh', 'lavender-dreams', 'sunny-lime'
+];

@@ -1,9 +1,13 @@
-import { ARROWS_KEYS, DIRECTION_DICT } from './constants';
+import { ARROWS_KEYS, DIRECTION_DICT, THEMES } from './constants';
 
 export default class View {
 
   get $$rootEl() {
     return document.querySelector('#root');
+  }
+
+  get $$settingsEl () {
+    return document.querySelector('#settings');
   }
 
   get $$bodyEl() {
@@ -38,7 +42,44 @@ export default class View {
 
   renderStatistic(movesCount) {
     this.$$statsEl.querySelector('.statistic__moves-value').textContent = movesCount;
-  };
+  }
+
+  renderSettings() {
+    const fragment = document.createDocumentFragment();
+
+    const themeInputs = THEMES.forEach(themeName => {
+      const inputWrapper = document.createElement('div');
+      inputWrapper.className = 'input-wrapper';
+
+      const radioEl = document.createElement('input');
+      radioEl.type = 'radio';
+      radioEl.name = 'theme';
+      radioEl.id = themeName;
+      radioEl.value = themeName;
+
+      const labelEl = document.createElement('label');
+      labelEl.textContent = `${themeName}`;
+      labelEl.setAttribute('for', themeName);
+      inputWrapper.append(radioEl, labelEl);
+      fragment.appendChild(inputWrapper);
+    });
+
+    const form = document.createElement('form');
+    form.id = 'theme-switcher';
+
+    const controlsWrapper = document.createElement('div');
+    controlsWrapper.className = 'controls-wrapper';
+
+    controlsWrapper.append(fragment);
+    form.appendChild(controlsWrapper);
+
+    this.$$settingsEl.appendChild(form);
+  }
+
+  applyTheme(theme) {
+    this.$$bodyEl.className = '';
+    this.$$bodyEl.className = `${theme}-theme`;
+  }
 
   moveTile(currentPosition, newPosition, possibleMoves) {
     const elementToMove = this.$$rootEl.querySelector(this._getTileSelector(newPosition));
@@ -51,7 +92,12 @@ export default class View {
     this._highlightActiveTiles(possibleMoves);
   }
 
-  bindHandlers({ onArrowKeyPress, onItemClick, onShuffleButtonClick }) {
+  bindHandlers({ 
+    onArrowKeyPress, 
+    onItemClick, 
+    onShuffleButtonClick, 
+    onThemeChange,
+  }) {
     window.addEventListener('keydown', event => {
       if (ARROWS_KEYS.indexOf(event.code) > -1) {
         onArrowKeyPress(DIRECTION_DICT[event.code]);
@@ -64,6 +110,12 @@ export default class View {
     });
     this.$$shuffleBttn.addEventListener('click', () => {
       onShuffleButtonClick();
+    });
+    this.$$settingsEl.querySelector('#theme-switcher').addEventListener('change', event => {
+      onThemeChange(event.target.value);
+    });
+    this.$$settingsEl.querySelector('#theme-switcher').addEventListener('submit', event => {
+      event.preventDefault();
     });
   }
 

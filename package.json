@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:itch": "vite build --config ./config/vite.itch.config.js",
     "preview": "vite preview"
   },
   "repository": {
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/alexeyvylegzhanin/sliding-puzzle#readme",
   "devDependencies": {
-    "vite": "^5.4.9"
+    "vite": "^5.4.9",
+    "vite-plugin-zip": "^1.0.1"
   }
 }
